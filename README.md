@@ -55,13 +55,21 @@ Since we've preserved the scale(in pixels) in the original game, feel free to zo
 - henesys2ellinia test performance
 ![h2e test result](result_images/henesys2ellinia/test_performance/henesys2ellinia%20result6.jpeg)
 
-- more training results
-- more test results
+- [more training results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/henesys2ellinia/training_performance)
+- [more test results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/henesys2ellinia/test_performance)
 - video results
+  - [where the forest sings.mp4](https://github.com/chk7082/henesys2ellinia/blob/master/result_videos/%5Be2h%5D%20where%20the%20forest%20sings.mp4)
+  - [henesys north hill.mp4](https://github.com/chk7082/henesys2ellinia/blob/master/result_videos/%5Bh2e%5D%20henesys%20north%20hill.mp4)
 
+<br>
+
+## Will be added soon
+
+<br><br>
+
+# Data Preparation
 
 <br><br><br><br>
-
 ---
 original scale
 
