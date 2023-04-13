@@ -6,7 +6,7 @@ This is just for educational purpose, I didn't use it in any malicious or commer
 - The copyright of the training images belongs to [Nexon](https://www.nexon.com/Home/Game) game - [Maplestory](https://maplestory.nexon.com/Home/Main)
 - So I can't share the training images I've used, please understand
 
-For those who like maple or those who have played it, I hope this would be a little bit of fun for them.
+For those who like Maplestory or those who have played it, I hope this would be a little bit of fun for them.
 
 <br>
 <br>
@@ -22,7 +22,7 @@ My goal is image-to-image translation between cities in maple world.
 
 But here's the problem, there's no (henesys_city, ellinia_city) pair which have same structure. (i.e we don't have paired dataset)
 
-I will use [CycleGAN](https://junyanz.github.io/CycleGAN/) to deal with this unpaired image-to-image translation task.
+[CycleGAN](https://junyanz.github.io/CycleGAN/) will be used to deal with this unpaired image-to-image translation task.
 
 You could see the details at the following links
 
@@ -31,8 +31,8 @@ You could see the details at the following links
 
 <br>
 
-- First, you could see some result images & videos 
-- And then, training details are provided
+- First, some result images & videos are provided
+- And then, training details
 
 <br>
 <br>
@@ -41,7 +41,7 @@ You could see the details at the following links
 
 Recommend you to check the images & videos at result images & result videos directory
 
-Since I've preserved the scale(in pixels) in the original game, feel free to go to the result_images & result_videos folder & open the files & zoom in to see the details.
+Since the scale(in pixels) in the original game is preserved, feel free to open the files & zoom in to see the details.
 
 ## henesys2ellinia
 
@@ -71,15 +71,15 @@ Since I've preserved the scale(in pixels) in the original game, feel free to go 
 
 # Data Preparation
 
-I've used [WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2/releases) to extract images, by following the [instruction](https://m.blog.naver.com/yeji__tok/221703890764).
+[WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2/releases) was used to extract images, by following the [instruction](https://m.blog.naver.com/yeji__tok/221703890764).
 
-I turned off the npc & monster & portal.
+The npc & monster & portal are excluded.
 
 <b>Note</b> : Map can be decomposed into two parts, foreground & background. When extracting images, foreground part is invariant to the position you're looking at, but background part isn't.
 
-By using this property, I extracted some large maps multiple times at different positions. Because I wanted to collect sufficient number of images for each distribution. And I've included some extra maps if those resembles the distribution of our targets. (such as, maple island ~ henesys, some event maps)
+By using this property, one could extract some large maps multiple times at different positions. By doing this, we could collect sufficient number of images for each distribution. And extra maps were also considered if those resembles the distribution of our targets. (such as, maple island ~ henesys, some event maps)
 
-All the images are acquired only from [WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2/releases), since I wanted to maintain the original & consistent scale of pixels. 
+All the images are acquired only from [WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2/releases), just to maintain the original & consistent scale of pixels. 
 
 <br><br>
 
@@ -91,25 +91,33 @@ CycleGAN is a generative adversial network for unpaired image-to-image translati
 
 ## Loss
 
-Adversial loss makes the result realistic(indistinguishable from real distribution). I used [least square loss from LSGAN](https://arxiv.org/abs/1611.04076) for adversial loss as author did.
+Adversial loss makes the result realistic(indistinguishable from real distribution). Among those, [least square loss from LSGAN](https://arxiv.org/abs/1611.04076) was used as author did.
 
-Cycle consistency loss was introduced in this paper. Basically it means, if we transfrom the image from A to another distribution by using one generator, and then transform it back by using the other generator(which forms a cycle), we want those two to be equal. So cycle consistency loss is defined as the L1 distance between those two images.
+Cycle consistency loss was introduced in this paper. Basically it means, if we transfrom the image from A to another distribution by using one generator, and then transform it back by using the other generator(which forms a cycle), we want those two to be equal. So cycle consistency loss is defined as the L1 distance between those two images in pixel space.
 
-I omitted the optional identity loss described in paper
+The optional identity loss (described in paper) was omitted.
+
+- generator_loss = lsgan_adversial_loss + lambda * cycle_consistency_loss
+
+  - lambda = 10 was used.
+
+- discriminator_loss = lsgan_adversial_loss / 2
+
+  - discriminator objective was divided by 2, just to slow down the rate at which it learns.
 
 <br>
 
 ## Generator
 
-I used the generator with 2 contracting blocks & 9 residual blocks & 2 expanding blocks.
+Each generator is composed of 2 contracting blocks & 9 residual blocks & 2 expanding blocks.
 - c7s1-64, d128, d256, R256 * 9, u128, u64, c7s1-3 (following the notation of paper in Section 7.2)
 
 <br>
 
 ## Discriminator
 
-I used the [PatchGAN](https://arxiv.org/abs/1611.07004v3) discriminator(introduced in [pix2pix](https://arxiv.org/abs/1611.07004v3)) of receptive field : 70 (in pixels)
-
+Each discriminator is [PatchGAN](https://arxiv.org/abs/1611.07004v3) discriminator(introduced in [pix2pix](https://arxiv.org/abs/1611.07004v3)) of receptive field : 70 (in pixels)
+- C64 - C128 - C256 - C512 - output (also following the notation of paper in Section 7.2)
 
 <br>
 
@@ -119,11 +127,28 @@ For more details, refer | [CycleGAN paper](https://arxiv.org/abs/1703.10593) | [
 
 # Training details
 
+All the model was trained from scratch with Adam optimizer (learning_rate=0.0002, beta_1=0.5, beta_2=0.999). All weights are initialized from a gaussian distribution with mean=0 and standard deviation=0.02.
 
-training time
+Since we used the generator with 4x downsampling & 4x upsampling, in order to compute cycle consistency loss, height and width should be multiple of 4(otherwise, we need extra modification).
 
-learning rate decay
+The network is fully convolutional. We don't use any fully connected layer. Since convolution can be applied to arbitrary size image, we trained the network with randomly cropped image of size (height, width) = (480, 480) (which was horizontally flipped with 50% chance), and at inference time, we applied it to the original images.
 
-gpu
+Video could be interpreted as the sequence of images(frames). So we mimicked [horse2zebra video](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/imgs/horse2zebra.gif) by applying the generator for frames. 
+- recording of the original video was done in [WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2/releases) by [windows xbox game bar](https://support.microsoft.com/ko-kr/windows/xbox-game-bar%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-pc%EC%97%90%EC%84%9C-%EA%B2%8C%EC%9E%84-%ED%81%B4%EB%A6%BD-%EB%85%B9%ED%99%94-2f477001-54d4-1276-9144-b0416a307f3c).
+- to reduce memory we choose fps=5
 
-since it's fullly convolutional, we could apply it to arbitrary size images (even the original one)
+<b>Note</b> : We didn't impose explicit temporal consistency to the model, but the result is quite good (at least I think). It seems that the combination of continuous change of background & foreground and cycle consistency loss makes it continuous.
+
+
+
+## henesys2ellinia
+
+- training dataset : 173 images from henesys & 135 images from ellinia (1 epoch = 135 update)
+- trained number of epoch : 2000
+  - after 1000 epoch, we linearly decayed the learning rate to 0
+- training time : roughly 80 ~ 100 hours with NVIDIA Tesla T4
+  - gpu might vary through time, since the training was done in colab pro environment
+
+<br>
+
+## Will be added soon
