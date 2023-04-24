@@ -9,6 +9,10 @@ This is just for educational purpose, I didn't use it in any malicious or commer
 For those who like Maplestory or those who have played it, I hope this would be a little bit of fun for them.
 
 <br>
+
+- (23/04/24) elnath2aquarium update 
+
+<br>
 <br>
 
 
@@ -59,11 +63,30 @@ Since the scale(in pixels) in the original game is preserved, feel free to open 
 
 - [more training results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/henesys2ellinia/training_performance)
 - [more test results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/henesys2ellinia/test_performance)
+
 - video results
   ![where the forest sings.gif](result_videos/%5Be2h%5D%20where%20the%20forest%20sings.gif)
   ![henesys north hill.gif](result_videos/%5Bh2e%5D%20henesys%20north%20hill.gif)
 
 <br>
+
+- From now on, only the training performance will be considered.
+
+## elnath2aquarium
+
+- elnath2aquarium performance
+![e2a training result](result_images/elnath2aquarium/elnath2aquarium%20result9.jpeg)
+
+- aquarium2elnath performance
+![a2e training result](result_images/elnath2aquarium/aquarium2elnath%20result3.jpeg)
+
+- [more image results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/elnath2aquarium/)
+
+- video results
+  ![storm wing.gif](result_videos/%5Be2a%5D%20storm%20wing.gif)
+  ![red coral forest.gif](result_videos/%5Ba2e%5D%20red%20coral%20forest.gif)
+
+<br><br>
 
 ## Will be added soon
 
@@ -76,6 +99,8 @@ Since the scale(in pixels) in the original game is preserved, feel free to open 
 The npc & monster & portal are excluded.
 
 <b>Note</b> : Map can be decomposed into two parts, foreground & background. When extracting images, foreground part is invariant to the position you're looking at, but background part isn't.
+
+- Again, Background part might be composed of multiple layers. Where each layers have different moving ratio w.r.t the position we're looking at.
 
 By using this property, one could extract some large maps multiple times at different positions. By doing this, we could collect sufficient number of images for each distribution. And extra maps were also considered if those resembles the distribution of our targets. (such as, maple island ~ henesys, some event maps)
 
@@ -135,7 +160,7 @@ The network is fully convolutional. We don't use any fully connected layer. Sinc
 
 Video could be interpreted as the sequence of images(frames). So we mimicked [horse2zebra video](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/imgs/horse2zebra.gif) by applying the generator for frames. 
 - recording of the original video was done in [WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2/releases) by [windows xbox game bar](https://support.microsoft.com/ko-kr/windows/xbox-game-bar%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-pc%EC%97%90%EC%84%9C-%EA%B2%8C%EC%9E%84-%ED%81%B4%EB%A6%BD-%EB%85%B9%ED%99%94-2f477001-54d4-1276-9144-b0416a307f3c).
-- to reduce memory we choose fps=5
+- to reduce memory we choose low fps
 
 <b>Note</b> : We didn't impose explicit temporal consistency to the model, but the result is quite good (at least I think). It seems that the combination of continuous change of background & foreground and cycle consistency loss makes it continuous.
 
@@ -143,12 +168,21 @@ Video could be interpreted as the sequence of images(frames). So we mimicked [ho
 
 ## henesys2ellinia
 
-- training dataset : 173 images from henesys & 135 images from ellinia (1 epoch = 135 update)
+- training dataset : 173 images from henesys & 135 images from ellinia (Batch_size = 1, 1 epoch = 135 update)
 - trained number of epoch : 2000
   - after 1000 epoch, we linearly decayed the learning rate to 0
-- training time : roughly 80 ~ 100 hours with NVIDIA Tesla T4
-  - gpu might vary through time, since the training was done in colab pro environment
+- training time : roughly 100 hours with NVIDIA Tesla T4
 
 <br>
+
+## elnath2aquarium
+
+- training dataset : 159 images from elnath & 147 images from aquarium (Batch_size = 1, 1 epoch = 147 update)
+- trained number of epoch : 2000
+  - after 1000 epoch, we linearly decayed the learning rate to 0
+- training time : roughly 100 hours with NVIDIA Tesla T4
+
+
+<br><br>
 
 ## Will be added soon
