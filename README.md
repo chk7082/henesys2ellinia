@@ -10,7 +10,8 @@ For those who like Maplestory or those who have played it, I hope this would be 
 
 <br>
 
-- (23/04/24) elnath2aquarium update 
+- (23/04/24) elnath2aquarium update
+- (23/04/29) perion2twilight_perion update
 
 <br>
 <br>
@@ -86,9 +87,20 @@ Since the scale(in pixels) in the original game is preserved, feel free to open 
   ![storm wing.gif](result_videos/%5Be2a%5D%20storm%20wing.gif)
   ![red coral forest.gif](result_videos/%5Ba2e%5D%20red%20coral%20forest.gif)
 
-<br><br>
+<br>
 
-## Will be added soon
+## perion2twilight_perion
+
+- perion2twilight_perion performance
+![p2t training result](result_images/perion2twilight_perion/perion2twilight_perion%20result7.jpeg)
+
+- twilight_perion2perion performance
+![t2p training result](result_images/perion2twilight_perion/twilight_perion2perion%20result9.jpeg)
+
+- video results
+  ![perion.gif](result_videos/%5Bp2t%5D%20perion.gif)
+  ![abandoned excavation site 2](result_videos/%5Bt2p%5D%20abandoned%20excavation%20site%202.gif)
+
 
 <br><br>
 
@@ -164,7 +176,7 @@ Video could be interpreted as the sequence of images(frames). So we mimicked [ho
 
 <b>Note</b> : We didn't impose explicit temporal consistency to the model, but the result is quite good (at least I think). It seems that the combination of continuous change of background & foreground and cycle consistency loss makes it continuous.
 
-
+<br>
 
 ## henesys2ellinia
 
@@ -182,7 +194,14 @@ Video could be interpreted as the sequence of images(frames). So we mimicked [ho
   - after 1000 epoch, we linearly decayed the learning rate to 0
 - training time : roughly 100 hours with NVIDIA Tesla T4
 
+<br>
+
+## perion2twilight_perion
+
+- training dataset : 189 images from perion & 220 images from twilight_perion (Batch_size = 1, 1 epoch = 189 update)
+- trained number of epoch : 1200
+  - after 600 epoch, we linearly decayed the learning rate to 0
+- training time : roughly 80 hours with NVIDIA Tesla T4
 
 <br><br>
 
-## Will be added soon
