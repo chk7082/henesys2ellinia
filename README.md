@@ -12,6 +12,9 @@ For those who like Maplestory or those who have played it, I hope this would be 
 
 - (23/04/24) elnath2aquarium update
 - (23/04/29) perion2twilight_perion update
+- (23/05/05) chewchew_island2lachelein update
+
+<b>Note</b> : Current version of [my implementation](CycleGAN.ipynb) uses separate data augmentation layer. One might slightly reduce the training time by letting the tf.data.dataset object to do that. Currently all the data preprocessing steps(except augmentation) make use of it to  parallelize the I/O & GPU works. 
 
 <br>
 <br>
@@ -97,9 +100,27 @@ Since the scale(in pixels) in the original game is preserved, feel free to open 
 - twilight_perion2perion performance
 ![t2p training result](result_images/perion2twilight_perion/twilight_perion2perion%20result9.jpeg)
 
+- [more image results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/perion2twilight_perion/)
+
 - video results
   ![perion.gif](result_videos/%5Bp2t%5D%20perion.gif)
   ![abandoned excavation site 2](result_videos/%5Bt2p%5D%20abandoned%20excavation%20site%202.gif)
+
+<br>
+
+## chewchew_island2lachelein
+
+- chewchew_island2lachelein performance
+![c2l training result](result_images/chewchew_island2lachelein/chewchew_island2lachelein%20result10.jpeg)
+
+- lachelein2chewchew_island performance
+![l2c training result](result_images/chewchew_island2lachelein/lachelein2chewchew_island%20result7.jpeg)
+
+- [more image results](https://github.com/chk7082/henesys2ellinia/tree/master/result_images/chewchew_island2lachelein/)
+
+- video results
+  ![chewchew island.gif](result_videos/%5Bc2l%5D%20chewchew%20island.gif)
+  ![revelation place 1.gif](result_videos/%5Bl2c%5D%20revelation%20place%201.gif)
 
 
 <br><br>
@@ -202,6 +223,16 @@ Video could be interpreted as the sequence of images(frames). So we mimicked [ho
 - trained number of epoch : 1200
   - after 600 epoch, we linearly decayed the learning rate to 0
 - training time : roughly 80 hours with NVIDIA Tesla T4
+
+<br>
+
+## chewchew_island2lachelein
+
+- training dataset : 250 images from chewchew_island & 156 images from lachelein (Batch_size = 1, 1 epoch = 156 update)
+- trained number of epoch : 2000
+  - after 1000 epoch, we linearly decayed the learning rate to 0
+- training time : roughly 100 hours with NVIDIA Tesla T4
+
 
 <br><br>
 
