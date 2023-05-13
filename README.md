@@ -19,6 +19,12 @@ For those who like Maplestory or those who have played it, I hope this would be 
 <br>
 <br>
 
+<div style="text-align: right"> by. 배고픈뿔버섯/엘리시움 </div>
+<div style="text-align: right"> chk70821@naver.com </div>
+
+<br>
+<br>
+
 
 # About this project
 
