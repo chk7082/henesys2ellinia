@@ -19,8 +19,9 @@ For those who like Maplestory or those who have played it, I hope this would be 
 <br>
 <br>
 
-<center>by. 배고픈뿔버섯/엘리시움</center>
-<center>chk70821@naver.com</center> 
+by. 배고픈뿔버섯/엘리시움 
+<br>
+chk70821@naver.com
 
 <br>
 <br>
