@@ -192,7 +192,7 @@ For more details, refer | [CycleGAN paper](https://arxiv.org/abs/1703.10593) | [
 
 # Training details
 
-All the model was trained from scratch with Adam optimizer (learning_rate=0.0002, beta_1=0.5, beta_2=0.999). All weights are initialized from a gaussian distribution with mean=0 and standard deviation=0.02.
+All the models were trained from scratch with Adam optimizer (learning_rate=0.0002, beta_1=0.5, beta_2=0.999). All weights were initialized from a gaussian distribution with mean=0 and standard deviation=0.02.
 
 Since we used the generator with 4x downsampling & 4x upsampling, in order to compute cycle consistency loss, height and width should be multiple of 4(otherwise, we need extra modification).
 
