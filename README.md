@@ -150,23 +150,23 @@ All the images are acquired only from [WzComparerR2](https://github.com/KENNYSOF
 
 # CycleGAN
 
-CycleGAN is a generative adversial network for unpaired image-to-image translation task. It's composed of 2 generators & 2 discriminators. Where generator's job is to map one distribution image to another, and discriminator's job is to discriminate whether the given image is real or fake.
+CycleGAN is a generative adversarial network for unpaired image-to-image translation task. It's composed of 2 generators & 2 discriminators. Where generator's job is to map one distribution image to another, and discriminator's job is to discriminate whether the given image is real or fake.
 
 <br>
 
 ## Loss
 
-Adversial loss makes the result realistic(indistinguishable from real distribution). Among those, [least square loss from LSGAN](https://arxiv.org/abs/1611.04076) was used as author did.
+Adversarial loss makes the result realistic(indistinguishable from real distribution). Among those, [least square loss from LSGAN](https://arxiv.org/abs/1611.04076) was used as author did.
 
 Cycle consistency loss was introduced in this paper. Basically it means, if we transfrom the image from A to another distribution by using one generator, and then transform it back by using the other generator(which forms a cycle), we want those two to be equal. So cycle consistency loss is defined as the L1 distance between those two images in pixel space.
 
 The optional identity loss (described in paper) was omitted.
 
-- generator_loss = lsgan_adversial_loss + lambda * cycle_consistency_loss
+- generator_loss = lsgan_adversarial_loss + lambda * cycle_consistency_loss
 
   - lambda = 10 was used.
 
-- discriminator_loss = lsgan_adversial_loss / 2
+- discriminator_loss = lsgan_adversarial_loss / 2
 
   - discriminator objective was divided by 2, just to slow down the rate at which it learns.
 
